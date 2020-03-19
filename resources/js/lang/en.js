@@ -70,6 +70,7 @@ export default {
     administrator: 'Administrator',
     users: 'Users',
     userProfile: 'User Profile',
+    productCategories: 'Product Categories',
   },
   navbar: {
     logOut: 'Log Out',

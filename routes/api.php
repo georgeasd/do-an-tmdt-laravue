@@ -17,6 +17,8 @@ use \App\Laravue\JsonResponse;
 
 Route::post('auth/login', 'AuthController@login');
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::apiResource('product-categories', 'ProductCategoryController');
+
     Route::get('auth/user', 'AuthController@user');
     Route::post('auth/logout', 'AuthController@logout');
     Route::apiResource('users', 'UserController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_USER_MANAGE);

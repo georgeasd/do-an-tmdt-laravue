@@ -72,6 +72,7 @@ export default {
     users: 'Tài khoản',
     userProfile: 'Tài khoản người dùng',
     rolePermission: 'Quản lý quyền truy cập',
+    productCategories: 'Thể loại Sản phẩm',
   },
   navbar: {
     logOut: 'Đăng xuất',
