@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
 class VerifyCsrfToken extends Middleware
@@ -18,7 +20,11 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array
      */
-    protected $except = [
-        //
-    ];
+    protected $except = [];
+
+    public function __construct(Application $app, Encrypter $encrypter)
+    {
+        $this->except[] = env('LARAVUE_PATH') . '/upload';
+        parent::__construct($app, $encrypter);
+    }
 }
