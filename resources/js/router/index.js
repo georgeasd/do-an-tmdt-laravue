@@ -218,12 +218,19 @@ export const asyncRoutes = [
     path: '/product-categories',
     component: Layout,
     redirect: 'noredirect',
+    meta: { title: 'productCategories', icon: 'component'},
     children: [
       {
         path: 'index',
         component: () => import('@/views/product-categories/ProductCategoryList'),
         name: 'ProductCategoryList',
-        meta: { title: 'productCategories', icon: 'component' },
+        meta: { title: 'list', icon: 'component' },
+      },
+      {
+        path: 'create',
+        component: () => import('@/views/product-categories/ProductCategoryCreate'),
+        name: 'ProductCategoryCreate',
+        meta: { title: 'create', icon: 'component' },
       },
     ],
   },

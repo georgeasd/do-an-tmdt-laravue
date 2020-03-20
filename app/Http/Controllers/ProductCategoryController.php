@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductCategoryResource;
+
+use App\Laravue\JsonResponse;
 use App\Laravue\Models\ProductCategory;
+use App\Services\ProductCategoryService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
+
 
 class ProductCategoryController extends Controller
 {
-    const ITEM_PER_PAGE = 15;
+    private $productCategorySerivce;
+
+    public function __construct(ProductCategoryService $productCategorySerivce)
+    {
+        $this->productCategorySerivce = $productCategorySerivce;
+    }
 
     /**
      * Display a listing of the resource.
@@ -18,21 +25,12 @@ class ProductCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $searchParams = $request->all();
-        $productCategories = ProductCategory::query();
-        $limit = Arr::get($searchParams, 'limit', static::ITEM_PER_PAGE);
-        $keyword = Arr::get($searchParams, 'keyword', '');
-        $sortBy = Arr::get($searchParams, 'sort', '');
-        $orderBy = Arr::get($searchParams, 'orderBy', '');
-        if (!empty($keyword)) {
-            $productCategories->where('name', 'LIKE', '%' . $keyword . '%');
+        try {
+            $categories = $this->productCategorySerivce->list($request);
+            return $categories;
+        } catch (\Exception $e) {
+            return response()->json(new JsonResponse([], $e->getMessage()), 500);
         }
-
-        if ($sortBy && $orderBy) {
-            $productCategories->orderBy($sortBy, $orderBy);
-        }
-
-        return ProductCategoryResource::collection($productCategories->paginate($limit));
     }
 
     /**
@@ -40,9 +38,9 @@ class ProductCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
     }
 
     /**
@@ -53,7 +51,11 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            return $this->productCategorySerivce->store($request);
+        } catch (\Exception $e) {
+            return response()->json(new JsonResponse([], $e->getMessage()), 500);
+        }
     }
 
     /**

@@ -1,7 +1,17 @@
 <template>
   <div class="app-container">
     <!-- Filter zone -->
-    <div class="filter-container" />
+    <div class="filter-container">
+      <el-button
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="primary"
+        icon="el-icon-edit"
+        @click="handleCreate"
+      >
+        {{ $t('table.add') }}
+      </el-button>
+    </div>
     <!-- !Filter zone -->
     <!-- Main table -->
     <el-table
@@ -109,7 +119,6 @@
 <script>
 import { fetchList } from '@/api/product-category';
 import waves from '@/directive/waves'; // Waves directive
-import { parseTime } from '@/utils';
 import Pagination from '@/components/Pagination';
 
 export default {
@@ -144,7 +153,9 @@ export default {
       // Just to simulate the time of the request
       this.listLoading = false;
     },
-
+    handleCreate() {
+      this.$router.push({ name: 'ProductCategoryCreate' });
+    },
     // Sort methods
     handleFilter() {
       this.listQuery.page = 1;
