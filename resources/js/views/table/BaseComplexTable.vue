@@ -56,7 +56,8 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        sort: '+id',
+        sort: 'id',
+        orderBy: 'desc',
       },
       list: null,
       listLoading: true,
@@ -84,15 +85,15 @@ export default {
     },
     sortChange(data) {
       const { prop, order } = data;
-      if (prop === 'id') {
-        this.sortByID(order);
-      }
+      this.sortByID(prop, order);
     },
-    sortByID(order) {
+    sortByID(prop, order) {
       if (order === 'ascending') {
-        this.listQuery.sort = '+id';
+        this.listQuery.sort = prop;
+        this.listQuery.orderBy = 'asc';
       } else {
-        this.listQuery.sort = '-id';
+        this.listQuery.sort = prop;
+        this.listQuery.orderBy = 'desc';
       }
       this.handleFilter();
     },

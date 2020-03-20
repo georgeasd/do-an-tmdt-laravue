@@ -147,6 +147,7 @@ export default {
     confirm: 'Confirm',
     keyword: 'Keyword',
     role: 'Role',
+    slug: 'Slug',
   },
   errorLog: {
     tips: 'Please click the bug icon in the upper right corner',

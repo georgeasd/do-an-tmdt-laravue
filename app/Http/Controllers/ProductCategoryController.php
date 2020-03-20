@@ -22,9 +22,16 @@ class ProductCategoryController extends Controller
         $productCategories = ProductCategory::query();
         $limit = Arr::get($searchParams, 'limit', static::ITEM_PER_PAGE);
         $keyword = Arr::get($searchParams, 'keyword', '');
+        $sortBy = Arr::get($searchParams, 'sort', '');
+        $orderBy = Arr::get($searchParams, 'orderBy', '');
         if (!empty($keyword)) {
             $productCategories->where('name', 'LIKE', '%' . $keyword . '%');
         }
+
+        if ($sortBy && $orderBy) {
+            $productCategories->orderBy($sortBy, $orderBy);
+        }
+
         return ProductCategoryResource::collection($productCategories->paginate($limit));
     }
 

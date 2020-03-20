@@ -25,6 +25,28 @@
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column
+        :label="$t('table.name')"
+        min-width="150px"
+        prop="name"
+        sortable="custom"
+        align="center"
+      >
+        <template slot-scope="{ row }">
+          <span>{{ row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t('table.slug')"
+        prop="slug"
+        sortable="custom"
+        align="center"
+      >
+        <template slot-scope="{ row }">
+          <span>{{ row.slug }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- !Main table -->
     <!-- Pagination -->
@@ -56,7 +78,8 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        sort: '+id',
+        sort: 'id',
+        orderBy: 'desc',
       },
       list: null,
       listLoading: true,
@@ -84,15 +107,15 @@ export default {
     },
     sortChange(data) {
       const { prop, order } = data;
-      if (prop === 'id') {
-        this.sortByID(order);
-      }
+      this.sortByID(prop, order);
     },
-    sortByID(order) {
+    sortByID(prop, order) {
       if (order === 'ascending') {
-        this.listQuery.sort = '+id';
+        this.listQuery.sort = prop;
+        this.listQuery.orderBy = 'asc';
       } else {
-        this.listQuery.sort = '-id';
+        this.listQuery.sort = prop;
+        this.listQuery.orderBy = 'desc';
       }
       this.handleFilter();
     },

@@ -145,6 +145,7 @@ export default {
     confirm: 'Confirm',
     keyword: 'Từ khóa',
     role: 'Nhóm',
+    slug: 'Slug',
   },
   errorLog: {
     tips: 'Please click the bug icon in the upper right corner',
