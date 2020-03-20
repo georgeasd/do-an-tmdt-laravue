@@ -47,6 +47,51 @@
           <span>{{ row.slug }}</span>
         </template>
       </el-table-column>
+      <el-table-column
+        :label="$t('table.image')"
+        prop="image"
+        sortable="custom"
+        align="center"
+      >
+        <template slot-scope="{ row }">
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="row.image"
+            fit="fit"
+          ></el-image>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t('table.parent_id')"
+        prop="parent_id"
+        sortable="custom"
+        align="center"
+      >
+        <template slot-scope="{ row }">
+          <span>{{ row.parent_id }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t('table.status')"
+        prop="status"
+        sortable="custom"
+        align="center"
+      >
+        <template slot-scope="{ row }">
+          <span>{{ row.status }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        :label="$t('table.sorts')"
+        prop="sorts"
+        sortable="custom"
+        align="center"
+      >
+        <template slot-scope="{ row }">
+          <span>{{ row.sorts }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- !Main table -->
     <!-- Pagination -->
