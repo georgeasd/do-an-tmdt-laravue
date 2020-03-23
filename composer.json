@@ -20,6 +20,7 @@
     ],
     "require": {
         "php": "^7.2",
+        "cviebrock/eloquent-sluggable": "6.*",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
         "laravel/passport": "^8.4",

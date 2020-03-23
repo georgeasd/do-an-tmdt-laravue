@@ -74,14 +74,16 @@ class UsersTableSeeder extends Seeder
                 Acl::ROLE_USER,
                 Acl::ROLE_VISITOR,
             ]);
-            $user = \App\Laravue\Models\User::create([
-                'name' => $fullName,
-                'email' => strtolower($name) . '@laravue.dev',
-                'password' => \Illuminate\Support\Facades\Hash::make('laravue'),
-            ]);
-
-            $role = Role::findByName($roleName);
-            $user->syncRoles($role);
+            $exist = \App\Laravue\Models\User::where('email', strtolower($name) . '@laravue.dev')->first();
+            if (!$exist) {
+                $user = \App\Laravue\Models\User::create([
+                    'name' => $fullName,
+                    'email' => strtolower($name) . '@laravue.dev',
+                    'password' => \Illuminate\Support\Facades\Hash::make('laravue'),
+                ]);
+                $role = Role::findByName($roleName);
+                $user->syncRoles($role);
+            }
         }
     }
 }

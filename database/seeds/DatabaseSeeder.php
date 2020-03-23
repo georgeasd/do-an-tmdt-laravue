@@ -14,27 +14,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $admin = User::create([
+        $admin = User::firstOrCreate(['email' => 'admin@laravue.dev'], [
             'name' => 'Admin',
             'email' => 'admin@laravue.dev',
             'password' => Hash::make('laravue'),
         ]);
-        $manager = User::create([
+        $manager = User::firstOrCreate(['email' => 'manager@laravue.dev',], [
             'name' => 'Manager',
             'email' => 'manager@laravue.dev',
             'password' => Hash::make('laravue'),
         ]);
-        $editor = User::create([
+        $editor = User::firstOrCreate(['email' => 'editor@laravue.dev',], [
             'name' => 'Editor',
             'email' => 'editor@laravue.dev',
             'password' => Hash::make('laravue'),
         ]);
-        $user = User::create([
+        $user = User::firstOrCreate(['email' => 'user@laravue.dev',], [
             'name' => 'User',
             'email' => 'user@laravue.dev',
             'password' => Hash::make('laravue'),
         ]);
-        $visitor = User::create([
+        $visitor = User::firstOrCreate(['email' => 'visitor@laravue.dev',], [
             'name' => 'Visitor',
             'email' => 'visitor@laravue.dev',
             'password' => Hash::make('laravue'),
@@ -51,5 +51,6 @@ class DatabaseSeeder extends Seeder
         $user->syncRoles($userRole);
         $visitor->syncRoles($visitorRole);
         $this->call(UsersTableSeeder::class);
+        $this->call(ProductCategoriesTableSeeder::class);
     }
 }

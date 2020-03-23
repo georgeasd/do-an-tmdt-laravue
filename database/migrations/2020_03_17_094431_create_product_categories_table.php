@@ -15,12 +15,13 @@ class CreateProductCategoriesTable extends Migration
     {
         Schema::create('product_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 255);
+            $table->string('name');
             $table->string('slug')->unique();
-            $table->string('image', 255)->nullable();
-            $table->bigInteger('parent_id')->nullable()->default(null);
-            $table->boolean('status')->default(0);
-            $table->integer('sorts')->nullable();
+            $table->text('description')->nullable();
+            $table->unsignedBigInteger('parent_id')->default(1)->nullable();
+            $table->boolean('featured')->default(0);
+            $table->boolean('status')->default(1);
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
