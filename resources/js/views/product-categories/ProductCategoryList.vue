@@ -2,6 +2,7 @@
   <div class="app-container">
     <!-- Filter zone -->
     <div class="filter-container">
+      <el-input v-model="listQuery.keyword" :placeholder="$t('table.title')" style="width: 200px;" class="filter-item" @keyup.native="handleFilter" />
       <el-button
         class="filter-item"
         style="margin-left: 10px;"
@@ -57,6 +58,18 @@
           <span>{{ row.slug }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column
+        :label="$t('table.description')"
+        prop="description"
+        sortable="custom"
+        align="center"
+      >
+        <template slot-scope="{ row }">
+          <span>{{ row.description }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column
         :label="$t('table.image')"
         prop="image"
@@ -68,38 +81,53 @@
             style="width: 100px; height: 100px"
             :src="row.image"
             fit="fit"
-          ></el-image>
+          />
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('table.parent_id')"
-        prop="parent_id"
+        :label="$t('table.parent_name')"
+        prop="parent_name"
         sortable="custom"
         align="center"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.parent_id }}</span>
+          <span>{{ row.parent_name }}</span>
         </template>
       </el-table-column>
+
       <el-table-column
         :label="$t('table.status')"
+        class-name="status-col"
+        width="100"
         prop="status"
         sortable="custom"
         align="center"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.status }}</span>
+          <el-tag :type="row.status | statusFilter">
+            {{ row.status ? 'On' : 'Off' }}
+          </el-tag>
         </template>
       </el-table-column>
 
       <el-table-column
-        :label="$t('table.sorts')"
-        prop="sorts"
-        sortable="custom"
+        :label="$t('table.actions')"
         align="center"
+        width="230"
+        class-name="small-padding fixed-width"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.sorts }}</span>
+          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+            {{ $t('table.edit') }}
+          </el-button>
+
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(row)"
+          >
+            {{ $t('table.delete') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -117,7 +145,7 @@
 </template>
 
 <script>
-import { fetchList } from '@/api/product-category';
+import { fetchList, deleteCategory } from '@/api/product-category';
 import waves from '@/directive/waves'; // Waves directive
 import Pagination from '@/components/Pagination';
 
@@ -125,7 +153,18 @@ export default {
   name: 'ProductCategoryList',
   components: { Pagination },
   directives: { waves },
-  filters: {},
+  filters: {
+    statusFilter(status) {
+      const statusMap = {
+        published: 'success',
+        draft: 'info',
+        deleted: 'danger',
+        1: 'success',
+        0: 'danger',
+      };
+      return statusMap[status];
+    },
+  },
   data() {
     return {
       tableKey: 0,
@@ -155,6 +194,38 @@ export default {
     },
     handleCreate() {
       this.$router.push({ name: 'ProductCategoryCreate' });
+    },
+    handleDelete(row) {
+      this.$confirm(
+        'This will delete product category "' +
+          row.name +
+          '". Continue?',
+        'Warning',
+        {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }
+      )
+        .then(() => {
+          deleteCategory(row.id)
+            .then(response => {
+              this.$message({
+                type: 'success',
+                message: 'Delete completed',
+              });
+              this.handleFilter();
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Delete canceled',
+          });
+        });
     },
     // Sort methods
     handleFilter() {

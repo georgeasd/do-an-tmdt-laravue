@@ -3,17 +3,21 @@
 namespace App\Laravue\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Model;
 
-class ProductCategory extends Model
+class ProductCategory extends BaseModel
 {
     use Sluggable;
 
     protected $table = 'product_categories';
+    protected $disk = 'store';
 
     protected $fillable = ['name', 'slug', 'image', 'parent_id', 'status', 'sorts'];
 
-
+    /*
+    |--------------------------------------------------------------------------
+    | Functions
+    |--------------------------------------------------------------------------
+    */
     public function sluggable()
     {
         return [
@@ -24,7 +28,16 @@ class ProductCategory extends Model
         ];
     }
 
-    // Relationship
+    public function isRoot()
+    {
+        return $this->slug == 'root';
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONSHIPsS
+    |--------------------------------------------------------------------------
+    */
     public function parent()
     {
         return $this->belongsTo(ProductCategory::class, 'parent_id');
@@ -46,9 +59,19 @@ class ProductCategory extends Model
             return '';
         }
         $destinationPath = "uploads/product-category";
-//        if (Request::is('api*')) {
-//            return CDNHelper::CdnURL($destinationPath, $value);
-//        }
         return asset($destinationPath . '/' . $value);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+    public function setImageAttribute($value)
+    {
+        $attribute_name = "image";
+        $disk = $this->disk;
+        $destination_path = 'product-category';
+        $this->uploadImage($attribute_name, $disk, $destination_path, $value);
     }
 }

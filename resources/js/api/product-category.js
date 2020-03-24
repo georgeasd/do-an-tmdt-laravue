@@ -7,3 +7,10 @@ export function fetchList(query) {
     params: query,
   });
 }
+
+export function deleteCategory(id) {
+  return request({
+    url: '/product-categories/' + id,
+    method: 'DELETE',
+  });
+}

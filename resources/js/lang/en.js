@@ -159,6 +159,9 @@ export default {
     slug: 'Slug',
     image: 'Ảnh',
     sorts: 'Sort',
+    parent_name: 'Parent Category',
+    edit: 'Edit',
+    delete: 'Delete',
   },
   errorLog: {
     tips: 'Please click the bug icon in the upper right corner',

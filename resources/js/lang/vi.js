@@ -72,7 +72,7 @@ export default {
     users: 'Tài khoản',
     userProfile: 'Tài khoản người dùng',
     rolePermission: 'Quản lý quyền truy cập',
-    productCategories: 'Thể loại Sản phẩm',
+    productCategories: 'Danh mục Sản phẩm',
   },
   navbar: {
     logOut: 'Đăng xuất',
@@ -157,6 +157,9 @@ export default {
     slug: 'Slug',
     image: 'Ảnh',
     sorts: 'Thứ tự ưu tiên',
+    parent_name: 'Thuộc Danh mục',
+    edit: 'Sửa',
+    delete: 'Xóa',
   },
   errorLog: {
     tips: 'Please click the bug icon in the upper right corner',

@@ -100,6 +100,16 @@ class ProductCategoryController extends Controller
      */
     public function destroy(ProductCategory $productCategory)
     {
-        //
+        try {
+            if ($productCategory->isRoot()) {
+                throw new \Exception('Oops! Can not delete root category', 403);
+            }
+            $productCategory->delete();
+            return response()->json(['success' => 'Success'], 200);
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 403);
+        }
+
+        return response()->json(null, 204);
     }
 }
