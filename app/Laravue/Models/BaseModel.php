@@ -9,7 +9,8 @@
 namespace App\Laravue\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Image;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class BaseModel extends Model
 {
@@ -32,7 +33,7 @@ class BaseModel extends Model
         }
 
         // if a base64 was sent, store it in the db
-        if (starts_with($_value, 'data:image')) {
+        if (Str::startsWith($_value, 'data:image')) {
             // 0. Make the image
             $image = Image::make($_value)->encode('jpg', 90);
             // 1. Generate a filename.

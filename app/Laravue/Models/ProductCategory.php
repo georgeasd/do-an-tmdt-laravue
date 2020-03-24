@@ -11,7 +11,7 @@ class ProductCategory extends BaseModel
     protected $table = 'product_categories';
     protected $disk = 'store';
 
-    protected $fillable = ['name', 'slug', 'image', 'parent_id', 'status', 'sorts'];
+    protected $fillable = ['name', 'slug', 'description', 'featured', 'image', 'parent_id', 'status'];
 
     /*
     |--------------------------------------------------------------------------
@@ -58,7 +58,7 @@ class ProductCategory extends BaseModel
         if (!$value) {
             return '';
         }
-        $destinationPath = "uploads/product-category";
+        $destinationPath = "uploads";
         return asset($destinationPath . '/' . $value);
     }
 
@@ -72,6 +72,6 @@ class ProductCategory extends BaseModel
         $attribute_name = "image";
         $disk = $this->disk;
         $destination_path = 'product-category';
-        $this->uploadImage($attribute_name, $disk, $destination_path, $value);
+        $this->uploadFile($attribute_name, $disk, $destination_path, $value);
     }
 }

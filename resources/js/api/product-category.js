@@ -14,3 +14,11 @@ export function deleteCategory(id) {
     method: 'DELETE',
   });
 }
+
+export function createProductCategory(data) {
+  return request({
+    url: '/product-categories/',
+    method: 'POST',
+    data,
+  });
+}
